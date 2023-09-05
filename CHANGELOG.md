@@ -1,3 +1,17 @@
+## [2.1.0] - Stable
+- new AwsHas
+- new Awsshowing
+- new AwsMarkdownEditor
+- new AwsBridgeNavigator
+- new AwsDuoButton
+- new AwsDynaflotButton
+- new AwsFlolinkButton(before AwsLinkText)
+- new AwsCheckextButton(before AwsTcButton)
+- new AwsIconButton
+- new AwsMotleyButton(before AwsGradientButton)
+- new AwsProcessButton(before AwsAnimationButton)
+- new AwsTexlinkButton
+- fixed
 ## [2.0.4] - Stable
 - fixed
 ## [2.0.3] - Stable

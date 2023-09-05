@@ -1,0 +1,1 @@
+enum AwsMDPageType { editor, preview }

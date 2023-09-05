@@ -4,24 +4,15 @@ import 'package:path/path.dart';
 enum AwsStorageType { file, directory, bytes, string }
 
 class AwsStorage {
-  static Future<AwsStorageResult<Directory>?> createDirectory(
-      String path) async {
-    Directory dir = await Directory(path).create(recursive: true);
-    if (dir.path.isEmpty) {
-      return null;
-    }
-    return AwsStorageResult<Directory>(dir);
+  factory AwsStorage() {
+    return _instance;
   }
 
-  static Future<bool> directoryExist(String path) async =>
-      await Directory(path).exists();
-  static Future<bool> generalFileExist(String path) async =>
-      await File(path).exists();
+  AwsStorage._();
+  static final AwsStorage _instance = AwsStorage._();
 
-  static Future<FileSystemEntity> directoryDelete(String path) async =>
-      await Directory(path).delete(recursive: true);
-
-  static Future<AwsStorageResult<String>?> copy(
+  ///Copies from one location to another the following data: file, directory, bytes, string.
+  Future<AwsStorageResult<String>?> copy(
       {String? from,
       required String to,
       required AwsStorageType type,
@@ -59,7 +50,7 @@ class AwsStorage {
     return null;
   }
 
-  static Future<Directory> _copyPathDirectory(String from, String to) async {
+  Future<Directory> _copyPathDirectory(String from, String to) async {
     late String copyTo;
     await Directory(to).create(recursive: true);
     await for (final file in Directory(from).list(recursive: true)) {
@@ -75,17 +66,17 @@ class AwsStorage {
     return Directory(to);
   }
 
-  static Future<File> _copyPathFile(String from, String to) async {
+  Future<File> _copyPathFile(String from, String to) async {
     return File(from)..copy(join(to));
   }
 
-  static Future<File> _copyString(String string, String to) async {
+  Future<File> _copyString(String string, String to) async {
     return File(join(to))
       ..createSync(recursive: true)
       ..writeAsString(string);
   }
 
-  static Future<File> _copyPathBytes(List<int> bytes, String to) async {
+  Future<File> _copyPathBytes(List<int> bytes, String to) async {
     return File(join(to))
       ..createSync(recursive: true)
       ..writeAsBytesSync(bytes);
@@ -95,5 +86,6 @@ class AwsStorage {
 class AwsStorageResult<T> {
   T data;
 
+  ///result of an AwsStorage operation
   AwsStorageResult(this.data);
 }

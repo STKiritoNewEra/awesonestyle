@@ -1,33 +1,31 @@
 import 'dart:async';
 import 'dart:io';
 
-/// Representa el estado de la conexión de datos.
-/// Devuelto por [AwsConnection.connectionStatus]
+/// Represents the state of the data connection.
+/// Returned by [AwsConnection.connectionStatus],[AwsConnection.onStatusChange],[AwsConnection.hasConnection]
 enum AwsConnectionStatus {
   disconnected,
   connected,
 }
 
-/// Este es un singleton al que se puede acceder como un constructor regular
-/// es decir, DataConnectionChecker() siempre devuelve la misma instancia.
+/// This is a singleton that can be accessed as a regular constructor ie [AwsConnection] always returns the same instance.
 class AwsConnection {
-  /// El puerto predeterminado de conexión es 53.
-  ///
-  /// Para más información consulte "https://www.google.com/search?q=dns+server+port".
-  static const int defaultPort = 53;
+  /// The default connection port is 53.
+  /// For more information see "https://www.google.com/search?q=dns server port".
+  static int get defaultPort => 53;
 
-  /// El tiempo de espera predeterminado es de 10 segundos antes de que se elimine una solicitud inalcanzable.
-  static const Duration defaultTimeOut = Duration(seconds: 10);
+  /// The default timeout is 5 seconds before an unreachable request is dropped.
+  static Duration get defaultTimeOut => Duration(seconds: 5);
 
-  /// El intervalo de solicitudes se realiza cada 10 segundos por defecto.
-  static const Duration defaultInterval = Duration(seconds: 10);
+  /// The request interval is every 3 seconds by default.
+  static Duration get defaultInterval => Duration(seconds: 3);
 
-  set alternateInterval(Duration interval) => checkInterval = interval;
+  /// Set the request interval.
+  set alternateInterval(Duration interval) => _checkInterval = interval;
 
-  /// Direcciones fiables predefinidas.
-  /// google: "1.1.1.1" y "8.8.4.4".
+  /// Predefined trusted addresses.
+  /// google: "1.1.1.1" and "8.8.4.4".
   /// opendns: "208.67.222.222".
-
   static final List<AwsConnectionOption> defaultAddresses = List.unmodifiable([
     AwsConnectionOption(
       address: InternetAddress('1.1.1.1'),
@@ -46,36 +44,37 @@ class AwsConnection {
     ),
   ]);
 
-  List<AwsConnectionOption> addresses = defaultAddresses;
-  //final List<AwsConnectionOption>? alternateAddresses;
-  set alternateAddresses(List<AwsConnectionOption> addresses) =>
-      this.addresses = addresses;
+  List<AwsConnectionOption> _addresses = defaultAddresses;
 
-  /// Este es un singleton al que se puede acceder como un constructor regular
-  /// es decir, DataConnectionChecker() siempre devuelve la misma instancia.
+  ///set an alternate address list, you can set the address of a specific server.
+  set alternateAddresses(List<AwsConnectionOption> addresses) =>
+      this._addresses = addresses;
+
+  /// This is a singleton that can be accessed as a regular constructor
+  /// That is, [AwsConnection] always returns the same instance.
   factory AwsConnection() {
     return _instance;
   }
   AwsConnection._() {
-    // realizar inmediatamente una comprobación inicial para que sepamos el último status?
-    // estado de conexión.entonces((status) => _últimoestado = status);
+    // immediately do an initial check so we know the latest status?
+    // connection status.then((status) => _laststatus = status);
 
-    // comienza a enviar actualizaciones de estado a onStatusChange cuando hay oyentes
-    // (emite solo si hay algún cambio desde la última actualización de estado)
+    // start sending status updates to onStatusChange when there are listeners
+    // (emits only if there are any changes since the last status update)
 
     _statusController.onListen = () {
       _maybeEmitStatusUpdate();
     };
-    // deja de enviar actualizaciones de estado cuando nadie está escuchando
+    // stop sending status updates when no one is listening
     _statusController.onCancel = () {
       _timerHandle?.cancel();
-      _lastStatus = null; // restablecer el último estado
+      _lastStatus = null; // reset the last state
     };
   }
   static final AwsConnection _instance = AwsConnection._();
 
-  /// Hacer ping a una sola dirección. Ver [AwsConnectionOption] para más
-  /// información sobre el argumento aceptado.
+  /// Ping a single address. See [AwsConnectionOption] for more
+  /// information about the accepted argument.
   Future<AwsConnectionResult> isHostReachable(
       AwsConnectionOption option) async {
     Socket? socket;
@@ -93,21 +92,21 @@ class AwsConnection {
     }
   }
 
-  /// Devuelve los resultados de la última comprobación.
+  /// Return the results of the last check.
   ///
-  /// La lista se rellena sólo cuando [hasConnection]
-  /// (o [connectionStatus]) se llama.
+  /// The list is filled only when [hasConnection]
+  /// (or [connectionStatus]) is called.
   List<AwsConnectionResult> get lastTryResults => _lastTryResults;
   List<AwsConnectionResult> _lastTryResults = <AwsConnectionResult>[];
 
-  /// Inicia una solicitud a cada dirección en [addresses].
-  /// Si al menos una de las direcciones es accesible
-  /// asumimos que hay una conexión a Internet disponible y devolvemos `true`.
-  /// `falso` en caso contrario.
+  /// Start a request to each address in [addresses].
+  /// If at least one of the addresses is accessible
+  /// We assume that an Internet connection is available and return `true`.
+  /// `false` otherwise.
   Future<bool> get hasConnection async {
     var requests = <Future<AwsConnectionResult>>[];
 
-    for (var addressOptions in addresses) {
+    for (var addressOptions in _addresses) {
       requests.add(isHostReachable(addressOptions));
     }
     _lastTryResults = List.unmodifiable(await Future.wait(requests));
@@ -115,127 +114,70 @@ class AwsConnection {
     return _lastTryResults.map((result) => result.isSuccess).contains(true);
   }
 
-  /// Inicia una solicitud a cada dirección en [addresses].
-  /// Si al menos una de las direcciones es accesible
-  /// asumimos que hay una conexión a Internet disponible y devolvemos `true`
+  /// Start a request to each address.
+  /// If at least one of the addresses is accessible
+  /// assume there is an Internet connection available and return
   /// [AwsConnectionStatus.connected].
-  /// [AwsConnectionStatus.disconnected] de lo contrario.
+  /// [AwsConnectionStatus.disconnected] otherwise.
   Future<AwsConnectionStatus> get connectionStatus async {
     return await hasConnection
         ? AwsConnectionStatus.connected
         : AwsConnectionStatus.disconnected;
   }
 
-  /// El intervalo entre comprobaciones periódicas. Los controles periódicos
-  /// solo se hace si hay un oyente adjunto [onStatusChange].
-  /// Si ese es el caso [onStatusChange] emite una actualización sólo si
-  /// hay cambio desde el estado anterior.
+  /// The interval between periodic checks. periodic checks
+  /// only done if there is a listener attached [onStatusChange].
+  /// If that's the case [onStatusChange] issues an update only if
+  /// there is change from the previous state.
   ///
-  /// Por defecto es [defaultInterval] (10 segundos).
-  Duration checkInterval = defaultInterval;
+  /// Default is [defaultInterval] (5 seconds).
+  Duration _checkInterval = defaultInterval;
 
-  // Comprueba el estado actual, lo compara con el anterior y emite
-  // un evento solo si hay un cambio y hay oyentes adjuntos
+  // Check the current state, compare it with the previous one, and output
+  // an event only if there is a change and listeners are attached
   //
-  // Si hay oyentes, se inicia un temporizador que vuelve a ejecutar esta función
-  // después del tiempo especificado en 'checkInterval'
+  // If there are listeners, start a timer that reruns this function
+  // after the time specified in 'checkInterval'.
   Future<void> _maybeEmitStatusUpdate([Timer? timer]) async {
-    // por si acaso
+    // just in case
     _timerHandle?.cancel();
     timer?.cancel();
 
     var currentStatus = await connectionStatus;
 
-    // solo envía la actualización de estado si el último estado difiere del actual
-    // y si alguien realmente está escuchando
+    // only send the status update if the last status differs from the current one
+    // and if someone is really listening.
     if (_lastStatus != currentStatus && _statusController.hasListener) {
       _statusController.add(currentStatus);
     }
 
-    // inicia un nuevo temporizador solo si hay oyentes
+    // start a new timer only if there are listeners.
     if (!_statusController.hasListener) return;
-    _timerHandle = Timer(checkInterval, _maybeEmitStatusUpdate);
+    _timerHandle = Timer(_checkInterval, _maybeEmitStatusUpdate);
 
-    // actualiza el ultimo estado
+    // update the last state
     _lastStatus = currentStatus;
   }
 
-// _lastStatus solo debe establecerse mediante _maybeEmitStatusUpdate()
-  // y el controlador de eventos _statusController's.onCancel
+// _lastStatus should only be set by _maybeEmitStatusUpdate()
+  // and the _statusController's.onCancel event handler
   AwsConnectionStatus? _lastStatus;
   Timer? _timerHandle;
 
-  // controlador para el flujo 'onStatusChange' expuesto
+  // handler for exposed 'onStatusChange' flow
   final StreamController<AwsConnectionStatus> _statusController =
       StreamController.broadcast();
 
-  /// Suscríbete a esta transmisión para recibir eventos cada vez que
-  /// [AwsConnectionStatus] cambios. Cuando un oyente está conectado
-  /// se realiza una comprobación inmediatamente y el estado([AwsConnectionStatus])
-  /// se emite. Después de eso, se inicia un temporizador que realiza
-  /// verifica con el intervalo especificado.
-  ///
-  /// *Mientras haya un oyente adjunto, se realizan comprobaciones,
-  /// así que recuerda desechar las suscripciones cuando ya no las necesites.*
-  ///
-  /// Example:
-  ///
-  /// ```dart
-  /// var listener = AwsConnection().onStatusChange.listen((status) {
-  ///   switch(status) {
-  ///     case AwsConnectionStatus.connected:
-  ///       print('Data connection is available.');
-  ///       break;
-  ///     case AwsConnectionStatus.disconnected:
-  ///       print('You are disconnected from the internet.');
-  ///       break;
-  ///   }
-  /// });
-  /// ```
-  ///
-  /// *Nota: Recuerde deshacerse de cualquier oyente,
-  /// cuando ya no se necesitan,
-  /// p.ej. en un* método *dispose() de `StatefulWidget`*
-  ///
-  /// ```dart
-  /// ...
-  /// @override
-  /// void dispose() {
-  ///   listener.cancel();
-  ///   super.dispose();
-  /// }
-  /// ...
-  /// ```
-  ///
-  /// Mientras haya un oyente adjunto, las solicitudes son
-  /// se hace con un intervalo de `checkInterval`. el temporizador se detiene
-  /// cuando se ejecuta actualmente una comprobación automática, por lo que este intervalo
-  /// en realidad es un poco más largo (el máximo sería `checkInterval`
-  /// el tiempo de espera máximo para una dirección en `direcciones`). Esto es por diseño
-  /// para evitar múltiples llamadas automáticas a `connectionStatus`, que
-  /// haría estragos.
-  ///
-  /// Puede, por supuesto, anular este comportamiento implementando su propio
-  /// variación de verificaciones basadas en el tiempo y llamando a `connectionStatus`
-  /// o `hasConnection` tantas veces como quieras.
-  ///
-  /// Cuando todos los oyentes se eliminan de `onStatusChange`, el interno
-  /// el temporizador se cancela y la transmisión no emite eventos.
+  /// Emits an AwsConnectionStatus every 5 seconds.
+  /// When all listeners are removed from `onStatusChange`, the internal
+  /// the timer is canceled and the stream does not emit events.
   Stream<AwsConnectionStatus> get onStatusChange => _statusController.stream;
 
-  /// Devuelve verdadero si hay algún oyente adjunto [onStatusChange]
+  /// Returns true if any listeners are attached [onStatusChange].
   bool get hasListeners => _statusController.hasListener;
-
-  // Alias ​​para [hasListeners]
-  bool get isActivelyChecking => _statusController.hasListener;
 }
 
-/// [AwsConnectionOption] es una clase que contiene los datos necesarios para realizar una conexión.
-/// El puerto predeterminado de conexión es 53.
-///
-/// Para más información consulte "https://www.google.com/search?q=dns+server+port".
-///
-/// El tiempo de espera predeterminado es de 10 segundos antes de que se elimine una solicitud inalcanzable.
+///[AwsConnectionOption] is a class that contains the data needed to make a connection.
 class AwsConnectionOption {
   final InternetAddress address;
   final int port;
@@ -251,7 +193,7 @@ class AwsConnectionOption {
   String toString() => 'AddressCheckOptions($address, $port, $timeout)';
 }
 
-/// [AwsConnectionResult] es una clase que brinda el estado de la conexión como tambien [AwsConnectionOption].
+/// [AwsConnectionResult] is a class that provides connection status.
 class AwsConnectionResult {
   final AwsConnectionOption options;
   final bool isSuccess;
