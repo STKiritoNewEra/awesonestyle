@@ -127,7 +127,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_hooks:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_hooks
       sha256: "9eab8fd7aa752c3c1c0a364f9825851d410eb935243411682f4b1b0a4c569d71"
@@ -151,7 +151,7 @@ packages:
     source: hosted
     version: "0.15.4"
   intl:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: intl
       sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
@@ -183,7 +183,7 @@ packages:
     source: hosted
     version: "4.0.1"
   markdown_core:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: markdown_core
       sha256: "079a854a48d443576fae504a606e6ab113da4b69e540f764a7cbe0cea9269e27"
@@ -215,7 +215,7 @@ packages:
     source: hosted
     version: "2.1.0"
   path:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: path
       sha256: "8829d8a55c13fc0e37127c29fedf290c102f4e40ae94ada574091fe0ff96c917"
@@ -236,7 +236,7 @@ packages:
     source: sdk
     version: "0.0.99"
   sleek_circular_slider:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: sleek_circular_slider
       sha256: "8844d036269a13e60dda4e16534d30d27cacaff8d2f10d042d9d61d111468b13"

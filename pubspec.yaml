@@ -10,19 +10,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
-  
-  
-  
+  flutter_hooks: ^0.20.0
+  markdown_core: ^1.0.0
+  sleek_circular_slider: ^2.0.1
+  intl: ^0.18.1
+  path: ^1.8.3
   
 dev_dependencies:
-  intl: ^0.18.0
-  flutter_hooks: ^0.20.0
   source_span: ^1.10.0
-  sleek_circular_slider: ^2.0.1
-  markdown_core: ^1.0.0
   cupertino_icons: ^1.0.2
-  path: ^1.8.2
   dartdoc:
   
   
