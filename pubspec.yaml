@@ -13,7 +13,7 @@ dependencies:
   flutter_hooks: ^0.20.0
   markdown_core: ^1.0.0
   sleek_circular_slider: ^2.0.1
-  intl: ^0.18.1
+  intl: ^0.18.0
   path: ^1.8.3
   
 dev_dependencies:
