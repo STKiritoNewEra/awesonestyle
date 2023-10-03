@@ -1,6 +1,6 @@
 name: awesonestyle
 description: "AwesoneStyle es un paquete multiplataforma que contiene un conjunto de herramientas para diseño de sitios, aplicaciones web, aplicaciones móviles y de escritorio."
-version: 2.1.1
+version: 2.1.2
 homepage: https://github.com/STKiritoNewEra/awesonestyle
 
 environment:

@@ -30,10 +30,10 @@ class AwsThemeIndicatorShowing {
   final double? height;
 
   /// Sets the initial color of the indicator [initStatecolor].
-  final Color initStatecolor;
+  final Color? initStatecolor;
 
   /// Sets the color when the flag is selected [changeStatecolor].
-  final Color changeStatecolor;
+  final Color? changeStatecolor;
 
   /// Sets the initial gradient of the indicator [initStateGradient].
   final Gradient? initStateGradient;

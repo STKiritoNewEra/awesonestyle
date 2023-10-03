@@ -1,4 +1,4 @@
-import 'package:awesonestyle/src/Widgets/fields/date/theme/aws_theme_date_field.dart';
+import 'package:awesonestyle/src/widgets/fields/date/theme/aws_theme_date_field.dart';
 import 'package:flutter/material.dart';
 
 class AwsDateField extends StatelessWidget {

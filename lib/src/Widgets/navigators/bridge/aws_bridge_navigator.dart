@@ -1,10 +1,10 @@
 import 'package:awesonestyle/src/Services/services_link.dart';
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/link/aws_link_ani_widget.dart';
-import 'package:awesonestyle/src/Widgets/navigators/bridge/buttons/aws_footer_button_bridge.dart';
-import 'package:awesonestyle/src/Widgets/navigators/bridge/buttons/aws_header_button_bridge.dart';
-import 'package:awesonestyle/src/Widgets/navigators/bridge/buttons/aws_item_button_bridge.dart';
-import 'package:awesonestyle/src/Widgets/navigators/bridge/painter/aws_painter_bridge.dart';
-import 'package:awesonestyle/src/Widgets/navigators/bridge/theme/aws_theme_bridge.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/link/aws_link_ani_widget.dart';
+import 'package:awesonestyle/src/widgets/navigators/bridge/buttons/aws_footer_button_bridge.dart';
+import 'package:awesonestyle/src/widgets/navigators/bridge/buttons/aws_header_button_bridge.dart';
+import 'package:awesonestyle/src/widgets/navigators/bridge/buttons/aws_item_button_bridge.dart';
+import 'package:awesonestyle/src/widgets/navigators/bridge/painter/aws_painter_bridge.dart';
+import 'package:awesonestyle/src/widgets/navigators/bridge/theme/aws_theme_bridge.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -204,6 +204,7 @@ class AwsBridgeNavigator<T> extends HookWidget {
       ValueNotifier<dynamic> selectedItem) {
     if (theme?.bar.borderGradient != null) {
       return Material(
+        type: MaterialType.transparency,
         child: Container(
           decoration: BoxDecoration(
             gradient: theme?.bar.borderGradient,
@@ -228,6 +229,7 @@ class AwsBridgeNavigator<T> extends HookWidget {
       );
     } else {
       return Material(
+        type: MaterialType.transparency,
         child: Container(
           decoration: BoxDecoration(
             color: _defaultTheme().bar.color,
@@ -250,6 +252,7 @@ class AwsBridgeNavigator<T> extends HookWidget {
       ValueNotifier<dynamic> selectedItem) {
     if (theme?.bar.borderGradient != null) {
       return Material(
+        type: MaterialType.transparency,
         child: Container(
           decoration: BoxDecoration(
             gradient: theme?.bar.borderGradient,
@@ -275,6 +278,7 @@ class AwsBridgeNavigator<T> extends HookWidget {
       );
     } else {
       return Material(
+        type: MaterialType.transparency,
         child: Container(
           decoration: BoxDecoration(
             color: _defaultTheme().bar.color,

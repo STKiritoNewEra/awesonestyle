@@ -1,14 +1,14 @@
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/animation/aws_animation.dart';
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/animations/aws_fades.dart';
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/animations/aws_fadeouts.dart';
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/animations/aws_bounces.dart';
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/animations/aws_attention_seekers.dart';
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/animations/aws_elastics.dart';
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/animations/aws_flips.dart';
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/animations/aws_slides.dart';
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/animations/aws_specials.dart';
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/animations/aws_zooms.dart';
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/setting/aws_ani_setting.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/animation/aws_animation.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/animations/aws_fades.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/animations/aws_fadeouts.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/animations/aws_bounces.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/animations/aws_attention_seekers.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/animations/aws_elastics.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/animations/aws_flips.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/animations/aws_slides.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/animations/aws_specials.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/animations/aws_zooms.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/setting/aws_ani_setting.dart';
 import 'package:flutter/material.dart';
 
 class AwsAniWidget extends StatefulWidget {

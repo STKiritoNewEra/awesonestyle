@@ -1,4 +1,4 @@
-import 'package:awesonestyle/src/Widgets/buttons/dynaflot/action/aws_action_dynaflot.dart';
+import 'package:awesonestyle/src/widgets/buttons/dynaflot/action/aws_action_dynaflot.dart';
 
 class AwsSettingDynaflot {
   final double spaceFromRight;

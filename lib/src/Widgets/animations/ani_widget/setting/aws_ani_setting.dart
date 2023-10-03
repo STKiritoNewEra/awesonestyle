@@ -1,4 +1,4 @@
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/animation/aws_animation.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/animation/aws_animation.dart';
 import 'package:flutter/animation.dart';
 
 class AwsAniSetting {

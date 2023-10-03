@@ -1,8 +1,8 @@
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/link/aws_link_ani_widget.dart';
-import 'package:awesonestyle/src/Widgets/buttons/duo/theme/aws_theme_duo_button.dart';
-import 'package:awesonestyle/src/Widgets/buttons/duo/theme/icon/aws_theme_icon_duo_button.dart';
-import 'package:awesonestyle/src/Widgets/buttons/duo/theme/standalone/aws_theme_standalone_duo_button.dart';
-import 'package:awesonestyle/src/Widgets/buttons/duo/theme/text/aws_theme_text_duo_button_dynaflot.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/link/aws_link_ani_widget.dart';
+import 'package:awesonestyle/src/widgets/buttons/duo/theme/aws_theme_duo_button.dart';
+import 'package:awesonestyle/src/widgets/buttons/duo/theme/icon/aws_theme_icon_duo_button.dart';
+import 'package:awesonestyle/src/widgets/buttons/duo/theme/standalone/aws_theme_standalone_duo_button.dart';
+import 'package:awesonestyle/src/widgets/buttons/duo/theme/text/aws_theme_text_duo_button_dynaflot.dart';
 import 'package:flutter/cupertino.dart';
 
 class AwsDuoButton extends StatefulWidget {

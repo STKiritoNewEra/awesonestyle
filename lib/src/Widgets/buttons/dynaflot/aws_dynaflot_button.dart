@@ -1,9 +1,9 @@
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/link/aws_link_ani_widget.dart';
-import 'package:awesonestyle/src/Widgets/buttons/dynaflot/action/aws_action_dynaflot.dart';
-import 'package:awesonestyle/src/Widgets/buttons/dynaflot/icon/aws_icon_dynaflot.dart';
-import 'package:awesonestyle/src/Widgets/buttons/dynaflot/settings/animation/aws_animation_setting_dynaflot.dart';
-import 'package:awesonestyle/src/Widgets/buttons/dynaflot/settings/aws_setting_dynaflot.dart';
-import 'package:awesonestyle/src/Widgets/buttons/dynaflot/theme/aws_theme_dynaflot.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/link/aws_link_ani_widget.dart';
+import 'package:awesonestyle/src/widgets/buttons/dynaflot/action/aws_action_dynaflot.dart';
+import 'package:awesonestyle/src/widgets/buttons/dynaflot/icon/aws_icon_dynaflot.dart';
+import 'package:awesonestyle/src/widgets/buttons/dynaflot/settings/animation/aws_animation_setting_dynaflot.dart';
+import 'package:awesonestyle/src/widgets/buttons/dynaflot/settings/aws_setting_dynaflot.dart';
+import 'package:awesonestyle/src/widgets/buttons/dynaflot/theme/aws_theme_dynaflot.dart';
 import 'package:flutter/material.dart';
 
 class AwsDynaflotButton extends StatefulWidget {

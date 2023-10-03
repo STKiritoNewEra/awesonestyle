@@ -1,9 +1,9 @@
 import 'package:awesonestyle/src/Services/services_link.dart';
-import 'package:awesonestyle/src/Widgets/editors/markdown/actions/context_menu/aws_context_menu_md.dart';
-import 'package:awesonestyle/src/Widgets/editors/markdown/actions/floating_menu/aws_floating_menu_md.dart';
-import 'package:awesonestyle/src/Widgets/editors/markdown/format/aws_edit_format_md.dart';
-import 'package:awesonestyle/src/Widgets/editors/markdown/perform/aws_editor_perform_md.dart';
-import 'package:awesonestyle/src/Widgets/editors/markdown/physics/aws_physics_md.dart';
+import 'package:awesonestyle/src/widgets/editors/markdown/actions/context_menu/aws_context_menu_md.dart';
+import 'package:awesonestyle/src/widgets/editors/markdown/actions/floating_menu/aws_floating_menu_md.dart';
+import 'package:awesonestyle/src/widgets/editors/markdown/format/aws_edit_format_md.dart';
+import 'package:awesonestyle/src/widgets/editors/markdown/perform/aws_editor_perform_md.dart';
+import 'package:awesonestyle/src/widgets/editors/markdown/physics/aws_physics_md.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:awesonestyle/src/Services/services_link.dart';
-import 'package:awesonestyle/src/Widgets/editors/markdown/editor/aws_editor_md.dart';
-import 'package:awesonestyle/src/Widgets/editors/markdown/format/aws_edit_format_md.dart';
-import 'package:awesonestyle/src/Widgets/editors/markdown/preview/aws_preview_md.dart';
-import 'package:awesonestyle/src/Widgets/editors/markdown/text/aws_text_markdown.dart';
-import 'package:awesonestyle/src/Widgets/editors/markdown/type/aws_page_type_markdown.dart';
+import 'package:awesonestyle/src/widgets/editors/markdown/editor/aws_editor_md.dart';
+import 'package:awesonestyle/src/widgets/editors/markdown/format/aws_edit_format_md.dart';
+import 'package:awesonestyle/src/widgets/editors/markdown/preview/aws_preview_md.dart';
+import 'package:awesonestyle/src/widgets/editors/markdown/text/aws_text_markdown.dart';
+import 'package:awesonestyle/src/widgets/editors/markdown/type/aws_page_type_markdown.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_core/builder.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';

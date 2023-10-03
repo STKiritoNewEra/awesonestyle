@@ -1,6 +1,6 @@
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/link/aws_link_ani_widget.dart';
-import 'package:awesonestyle/src/Widgets/buttons/process/state/aws_state_process_button.dart';
-import 'package:awesonestyle/src/Widgets/buttons/process/style/aws_style_process_button.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/link/aws_link_ani_widget.dart';
+import 'package:awesonestyle/src/widgets/buttons/process/state/aws_state_process_button.dart';
+import 'package:awesonestyle/src/widgets/buttons/process/style/aws_style_process_button.dart';
 import 'package:flutter/material.dart';
 
 class AwsProcessButton extends StatefulWidget {

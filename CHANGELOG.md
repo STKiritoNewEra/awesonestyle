@@ -1,3 +1,8 @@
+## [2.1.2] - Stable
+- fixed (AwsBridgeNavigator)
+- fixed (AwsShowingScreen)
+## [2.1.1] - Stable
+- fixed
 ## [2.1.0] - Stable
 - new AwsHas
 - new Awsshowing

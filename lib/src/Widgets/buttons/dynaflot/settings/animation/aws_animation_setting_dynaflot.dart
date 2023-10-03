@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/link/aws_link_ani_widget.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/link/aws_link_ani_widget.dart';
 
 class AwsAnimationSettingDynaflot {
   final AwsAnimation? animationChild;

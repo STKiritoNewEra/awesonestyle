@@ -1,5 +1,5 @@
-import 'package:awesonestyle/src/Services/services_link.dart';
-import 'package:awesonestyle/src/Widgets/animations/ani_widget/link/aws_link_ani_widget.dart';
+import 'package:awesonestyle/src/services/services_link.dart';
+import 'package:awesonestyle/src/widgets/animations/ani_widget/link/aws_link_ani_widget.dart';
 import 'package:awesonestyle/src/screens/showing/button/aws_text_button_showing.dart';
 import 'package:awesonestyle/src/screens/showing/content/aws_content_showing.dart';
 import 'package:awesonestyle/src/screens/showing/indicator/aws_indicator_showing.dart';
@@ -220,7 +220,7 @@ class _AwsShowingScreenState extends State<AwsShowingScreen>
               border: _theme.indicator.border,
               borderColor: _theme.indicator.borderColor,
               shadow: _theme.indicator.shadow,
-              gradient: _theme.indicator.initStateGradient,
+              gradient: _theme.indicator.changeStateGradient,
             ),
           ));
     });

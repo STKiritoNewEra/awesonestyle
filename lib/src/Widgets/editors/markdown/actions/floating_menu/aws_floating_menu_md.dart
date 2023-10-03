@@ -1,4 +1,4 @@
-import 'package:awesonestyle/src/Widgets/editors/markdown/parser/aws_parser_md.dart';
+import 'package:awesonestyle/src/widgets/editors/markdown/parser/aws_parser_md.dart';
 import 'package:flutter/material.dart';
 
 class AwsMarkdownFloatingMenu extends StatefulWidget {
