@@ -105,7 +105,9 @@ class AwsProcessButtonState extends State<AwsProcessButton> {
                   ),
           ),
           onTap: () async {
-            if (state != AwsStateProcessButton.process) {
+            if (state != AwsStateProcessButton.process &&
+                state != AwsStateProcessButton.ok &&
+                state != AwsStateProcessButton.error) {
               state = AwsStateProcessButton.process;
               definition = widget.accion;
               setState(() {});

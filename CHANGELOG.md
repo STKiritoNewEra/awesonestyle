@@ -1,3 +1,6 @@
+## [2.2.2] - stable
+- fixed AwsProcessButton
+-change version intl
 ## [2.2.1] - stable
 - AwsProcessButton (now AwsProcessButtonOld) is deprecated.
 - add new AwsProcessButton with improvements.

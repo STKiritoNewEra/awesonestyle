@@ -111,9 +111,9 @@
     },
     {
       "name": "intl",
-      "rootUri": "file:///Users/diegomoreanomerino/.pub-cache/hosted/pub.dev/intl-0.19.0",
+      "rootUri": "file:///Users/diegomoreanomerino/.pub-cache/hosted/pub.dev/intl-0.18.1",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "2.12"
     },
     {
       "name": "logging",
@@ -224,7 +224,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-12-15T23:06:39.228291Z",
+  "generated": "2023-12-15T23:52:21.780769Z",
   "generator": "pub",
   "generatorVersion": "3.2.1"
 }
