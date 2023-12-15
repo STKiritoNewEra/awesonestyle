@@ -1,4 +1,6 @@
-import 'package:awesonestyle/src/Services/services_link.dart';
+import 'dart:io';
+
+import 'package:awesonestyle/src/services/services_link.dart';
 import 'package:awesonestyle/src/widgets/animations/ani_widget/link/aws_link_ani_widget.dart';
 import 'package:awesonestyle/src/widgets/navigators/bridge/buttons/aws_footer_button_bridge.dart';
 import 'package:awesonestyle/src/widgets/navigators/bridge/buttons/aws_header_button_bridge.dart';
@@ -7,9 +9,8 @@ import 'package:awesonestyle/src/widgets/navigators/bridge/painter/aws_painter_b
 import 'package:awesonestyle/src/widgets/navigators/bridge/theme/aws_theme_bridge.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
-class AwsBridgeNavigator<T> extends HookWidget {
+class AwsBridgeNavigator<T> extends StatefulWidget {
   final Axis direction;
   final bool expanded;
   final bool spaceBetween;
@@ -37,29 +38,46 @@ class AwsBridgeNavigator<T> extends HookWidget {
     this.spaceBetween = false,
   });
 
+  @override
+  State<AwsBridgeNavigator<T>> createState() => _AwsBridgeNavigatorState<T>();
+}
+
+class _AwsBridgeNavigatorState<T> extends State<AwsBridgeNavigator<T>> {
   AwsThemeBridge _defaultTheme() {
-    if (theme == null) {
+    if (widget.theme == null) {
       return AwsThemeBridge.base();
     } else {
-      return theme!;
+      return widget.theme!;
     }
   }
 
+  late T selectedItem;
+  bool isExpanded = false;
+
+  @override
+  void initState() {
+    selectedItem = widget.initValue;
+    isExpanded = false;
+    super.initState();
+  }
+
   Widget _defaultHeader(BuildContext context, {required bool isExpanded}) {
-    if (header != null && direction == Axis.vertical && isExpanded) {
+    if (widget.header != null &&
+        widget.direction == Axis.vertical &&
+        isExpanded) {
       return Tooltip(
-        message: header!.title,
+        message: widget.header!.title,
         child: InkWell(
-          onTap: header!.onTap,
+          onTap: widget.header!.onTap,
           child: Container(
             margin: const EdgeInsets.all(10),
             child: Flex(
               direction: Axis.vertical,
               children: [
-                header!.leading,
+                widget.header!.leading,
                 Text(
-                  header!.title,
-                  style: header!.titleStyle,
+                  widget.header!.title,
+                  style: widget.header!.titleStyle,
                 ),
               ],
             ),
@@ -67,22 +85,24 @@ class AwsBridgeNavigator<T> extends HookWidget {
         ),
       );
     }
-    if (header != null && direction == Axis.horizontal && expanded) {
+    if (widget.header != null &&
+        widget.direction == Axis.horizontal &&
+        widget.expanded) {
       return Tooltip(
-        message: header!.title,
+        message: widget.header!.title,
         child: InkWell(
-          onTap: header!.onTap,
+          onTap: widget.header!.onTap,
           child: Container(
             margin: const EdgeInsets.all(10),
             width: context.width(20),
             child: Flex(
               direction: Axis.horizontal,
               children: [
-                header!.leading,
+                widget.header!.leading,
                 Flexible(
                   child: Text(
-                    header!.title,
-                    style: header!.titleStyle,
+                    widget.header!.title,
+                    style: widget.header!.titleStyle,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -93,11 +113,11 @@ class AwsBridgeNavigator<T> extends HookWidget {
       );
     }
     return Tooltip(
-        message: header!.title,
+        message: widget.header!.title,
         child: InkWell(
-          onTap: header!.onTap,
+          onTap: widget.header!.onTap,
           child: Container(
-              margin: const EdgeInsets.all(10), child: header!.leading),
+              margin: const EdgeInsets.all(10), child: widget.header!.leading),
         ));
   }
 
@@ -111,60 +131,79 @@ class AwsBridgeNavigator<T> extends HookWidget {
 
   Widget _defaultFooter(
       {required bool isExpanded, required void Function(bool state) shift}) {
-    ValueNotifier<IconData> icon =
-        useState(CupertinoIcons.arrow_up_left_arrow_down_right);
+    IconData icon = CupertinoIcons.arrow_up_left_arrow_down_right;
 
-    ValueNotifier<bool> maximizar = useState(false);
-    if (footer == null && direction == Axis.horizontal && !isExpanded) {
+    bool maximizar = false;
+    if (widget.footer == null &&
+        widget.direction == Axis.horizontal &&
+        !isExpanded) {
       return Container();
     }
-    if (footer == null && direction == Axis.vertical && expanded) {
+    if (widget.footer == null &&
+        widget.direction == Axis.vertical &&
+        widget.expanded) {
       return Container(
         margin: const EdgeInsets.all(10),
         child: IconButton(
           icon: Icon(
-            icon.value,
-            color: theme?.footerDefaultColor,
+            icon,
+            color: widget.theme?.footerDefaultColor,
           ),
-          onPressed: () {
-            maximizar.value = !maximizar.value;
-            shift.call(maximizar.value);
+          onPressed: () => setState(() {
+            maximizar = !maximizar;
+            shift.call(maximizar);
 
-            icon.value = _defaultFooterMaximizar(maximizar.value);
-          },
+            icon = _defaultFooterMaximizar(maximizar);
+          }),
         ),
       );
     } else {
-      shift.call(false);
+      setState(() {
+        shift.call(false);
+      });
 
-      if (footer != null && direction == Axis.vertical && !isExpanded) {
+      if (widget.footer != null &&
+          widget.direction == Axis.vertical &&
+          !isExpanded) {
         return InkWell(
-          onTap: footer!.onTap,
+          onTap: widget.footer!.onTap,
           child: Container(
-              margin: const EdgeInsets.all(10), child: footer!.leading),
+              margin: const EdgeInsets.all(10), child: widget.footer!.leading),
         );
       }
       return InkWell(
-        onTap: footer!.onTap,
-        child:
-            Container(margin: const EdgeInsets.all(10), child: footer!.leading),
+        onTap: widget.footer!.onTap,
+        child: Container(
+            margin: const EdgeInsets.all(10), child: widget.footer!.leading),
       );
     }
   }
 
   double _defaultWidth(BuildContext context, {required bool isExpanded}) {
     if (isExpanded) {
-      if (direction == Axis.vertical) {
-        return context.width(45);
-      } else if (direction == Axis.horizontal) {
+      if (widget.direction == Axis.vertical) {
+        if (Platform.isAndroid || Platform.isIOS) {
+          return context.width(45);
+        } else if (Platform.isMacOS || Platform.isWindows || Platform.isLinux) {
+          return context.width(18);
+        } else {
+          return context.width(23);
+        }
+      } else if (widget.direction == Axis.horizontal) {
         return context.width(13);
       } else {
         return context.width(100);
       }
     } else {
-      if (direction == Axis.vertical) {
-        return context.width(13);
-      } else if (direction == Axis.horizontal) {
+      if (widget.direction == Axis.vertical) {
+        if (Platform.isAndroid || Platform.isIOS) {
+          return context.width(13);
+        } else if (Platform.isMacOS || Platform.isWindows || Platform.isLinux) {
+          return context.width(5);
+        } else {
+          return context.width(12);
+        }
+      } else if (widget.direction == Axis.horizontal) {
         return context.width(100);
       } else {
         return context.width(100);
@@ -174,17 +213,17 @@ class AwsBridgeNavigator<T> extends HookWidget {
 
   double _defaultHeight(BuildContext context, {required bool isExpanded}) {
     if (isExpanded) {
-      if (direction == Axis.vertical) {
+      if (widget.direction == Axis.vertical) {
         return context.height(100);
-      } else if (direction == Axis.horizontal) {
+      } else if (widget.direction == Axis.horizontal) {
         return context.height(13);
       } else {
         return context.height(100);
       }
     } else {
-      if (direction == Axis.vertical) {
+      if (widget.direction == Axis.vertical) {
         return context.height(100);
-      } else if (direction == Axis.horizontal) {
+      } else if (widget.direction == Axis.horizontal) {
         return context.height(7);
       } else {
         return context.height(100);
@@ -200,14 +239,13 @@ class AwsBridgeNavigator<T> extends HookWidget {
     }
   }
 
-  Material _material(BuildContext context, ValueNotifier<bool> isExpanded,
-      ValueNotifier<dynamic> selectedItem) {
-    if (theme?.bar.borderGradient != null) {
+  Material _material(BuildContext context, bool isExpanded, T selectedItem) {
+    if (widget.theme?.bar.borderGradient != null) {
       return Material(
         type: MaterialType.transparency,
         child: Container(
           decoration: BoxDecoration(
-            gradient: theme?.bar.borderGradient,
+            gradient: widget.theme?.bar.borderGradient,
           ),
           child: Container(
             decoration: BoxDecoration(
@@ -218,8 +256,8 @@ class AwsBridgeNavigator<T> extends HookWidget {
               gradient: _defaultTheme().bar.gradient,
               backgroundBlendMode: _defaultTheme().bar.backgroundBlendMode,
             ),
-            width: _defaultWidth(context, isExpanded: isExpanded.value),
-            height: _defaultHeight(context, isExpanded: isExpanded.value),
+            width: _defaultWidth(context, isExpanded: isExpanded),
+            height: _defaultHeight(context, isExpanded: isExpanded),
             child: _content(context,
                 isExpanded: isExpanded,
                 selectedItem: selectedItem,
@@ -239,8 +277,8 @@ class AwsBridgeNavigator<T> extends HookWidget {
             gradient: _defaultTheme().bar.gradient,
             backgroundBlendMode: _defaultTheme().bar.backgroundBlendMode,
           ),
-          width: _defaultWidth(context, isExpanded: isExpanded.value),
-          height: _defaultHeight(context, isExpanded: isExpanded.value),
+          width: _defaultWidth(context, isExpanded: isExpanded),
+          height: _defaultHeight(context, isExpanded: isExpanded),
           child: _content(context,
               isExpanded: isExpanded, selectedItem: selectedItem, paint: false),
         ),
@@ -248,14 +286,13 @@ class AwsBridgeNavigator<T> extends HookWidget {
     }
   }
 
-  Material _painter(BuildContext context, ValueNotifier<bool> isExpanded,
-      ValueNotifier<dynamic> selectedItem) {
-    if (theme?.bar.borderGradient != null) {
+  Material _painter(BuildContext context, bool isExpanded, T selectedItem) {
+    if (widget.theme?.bar.borderGradient != null) {
       return Material(
         type: MaterialType.transparency,
         child: Container(
           decoration: BoxDecoration(
-            gradient: theme?.bar.borderGradient,
+            gradient: widget.theme?.bar.borderGradient,
           ),
           padding: const EdgeInsets.all(2),
           child: Container(
@@ -267,8 +304,8 @@ class AwsBridgeNavigator<T> extends HookWidget {
               gradient: _defaultTheme().bar.gradient,
               backgroundBlendMode: _defaultTheme().bar.backgroundBlendMode,
             ),
-            width: _defaultWidth(context, isExpanded: isExpanded.value),
-            height: _defaultHeight(context, isExpanded: isExpanded.value),
+            width: _defaultWidth(context, isExpanded: isExpanded),
+            height: _defaultHeight(context, isExpanded: isExpanded),
             child: _content(context,
                 isExpanded: isExpanded,
                 selectedItem: selectedItem,
@@ -288,8 +325,8 @@ class AwsBridgeNavigator<T> extends HookWidget {
             gradient: _defaultTheme().bar.gradient,
             backgroundBlendMode: _defaultTheme().bar.backgroundBlendMode,
           ),
-          width: _defaultWidth(context, isExpanded: isExpanded.value),
-          height: _defaultHeight(context, isExpanded: isExpanded.value),
+          width: _defaultWidth(context, isExpanded: isExpanded),
+          height: _defaultHeight(context, isExpanded: isExpanded),
           child: _content(context,
               isExpanded: isExpanded, selectedItem: selectedItem, paint: true),
         ),
@@ -306,93 +343,98 @@ class AwsBridgeNavigator<T> extends HookWidget {
   }
 
   Widget _content(BuildContext context,
-      {required ValueNotifier<bool> isExpanded,
-      required ValueNotifier<dynamic> selectedItem,
+      {required bool isExpanded,
+      required T selectedItem,
       required bool paint}) {
     return Flex(
-      direction: direction,
-      mainAxisAlignment: spaceBetween
+      direction: widget.direction,
+      mainAxisAlignment: widget.spaceBetween
           ? MainAxisAlignment.spaceBetween
           : MainAxisAlignment.start,
       children: [
-        if (header != null)
+        if (widget.header != null)
           AwsAniWidget(
               setting: AwsAniSetting(
-                animation: direction == Axis.vertical
+                animation: widget.direction == Axis.vertical
                     ? AwsAnimation.fadeInLeft
                     : AwsAnimation.fadeInUp,
               ),
-              child: _defaultHeader(context, isExpanded: isExpanded.value)),
-        if (spaceBetween) const Spacer(),
+              child: _defaultHeader(context, isExpanded: isExpanded)),
+        if (widget.spaceBetween) const Spacer(),
         Flex(
-          direction: direction,
-          children: items
+          direction: widget.direction,
+          children: widget.items
               .map(
                 (item) => AwsAniWidget(
                   setting: AwsAniSetting(
-                    animation: direction == Axis.vertical
+                    animation: widget.direction == Axis.vertical
                         ? AwsAnimation.fadeInLeft
                         : AwsAnimation.fadeInUp,
                   ),
                   child: InkWell(
-                    onTap: () {
-                      selectedItem.value = item.value;
+                    onTap: () => setState(
+                      () {
+                        selectedItem = item.value;
 
-                      onSelected.call(item.value);
-                    },
+                        widget.onSelected.call(item.value);
+                      },
+                    ),
                     child: Container(
                       margin: const EdgeInsets.all(10),
-                      child: isExpanded.value == true
+                      child: isExpanded == true
                           ? Flex(
-                              direction: _defaultConvertDirection(direction),
+                              direction:
+                                  _defaultConvertDirection(widget.direction),
                               children: [
-                                if (_defaultConvertDirection(direction) ==
+                                if (_defaultConvertDirection(
+                                        widget.direction) ==
                                     Axis.vertical)
                                   const SizedBox(height: 15),
-                                if (_defaultConvertDirection(direction) ==
+                                if (_defaultConvertDirection(
+                                        widget.direction) ==
                                     Axis.horizontal)
                                   const SizedBox(width: 15),
                                 CustomPaint(
-                                  painter: selectedItem.value == item.value
+                                  painter: selectedItem == item.value
                                       ? _paint(paint)
                                       : null,
                                   child: Icon(
                                     item.icon,
-                                    color: selectedItem.value == item.value
+                                    color: selectedItem == item.value
                                         ? _defaultTheme().item.isSelectedColor
                                         : _defaultTheme().item.notSelectedColor,
                                   ),
                                 ),
-                                if (_defaultConvertDirection(direction) ==
+                                if (_defaultConvertDirection(
+                                        widget.direction) ==
                                     Axis.vertical)
                                   const SizedBox(height: 15),
-                                if (_defaultConvertDirection(direction) ==
+                                if (_defaultConvertDirection(
+                                        widget.direction) ==
                                     Axis.horizontal)
                                   const SizedBox(width: 15),
                                 Text(
                                   item.label,
-                                  style: _defaultTheme()
-                                      .item
-                                      .labelStyle
-                                      .copyWith(
-                                        color: selectedItem.value == item.value
-                                            ? _defaultTheme()
-                                                .item
-                                                .isSelectedColor
-                                            : _defaultTheme()
-                                                .item
-                                                .notSelectedColor,
-                                      ),
+                                  style:
+                                      _defaultTheme().item.labelStyle.copyWith(
+                                            color: selectedItem == item.value
+                                                ? _defaultTheme()
+                                                    .item
+                                                    .isSelectedColor
+                                                : _defaultTheme()
+                                                    .item
+                                                    .notSelectedColor,
+                                          ),
                                 ),
                               ],
                             )
                           : CustomPaint(
-                              painter: selectedItem.value == item.value
+                              painter: selectedItem == item.value
                                   ? _paint(paint)
                                   : null,
                               child: Icon(
                                 item.icon,
-                                color: selectedItem.value == item.value
+                                color: selectedItem == item.value
                                     ? _defaultTheme().item.isSelectedColor
                                     : _defaultTheme().item.notSelectedColor,
                               ),
@@ -403,18 +445,19 @@ class AwsBridgeNavigator<T> extends HookWidget {
               )
               .toList(),
         ),
-        if (spaceBetween) const Spacer(),
-        if (!spaceBetween && direction == Axis.vertical) const Spacer(),
-        if (expanded)
+        if (widget.spaceBetween) const Spacer(),
+        if (!widget.spaceBetween && widget.direction == Axis.vertical)
+          const Spacer(),
+        if (widget.expanded)
           AwsAniWidget(
             setting: AwsAniSetting(
-              animation: direction == Axis.vertical
+              animation: widget.direction == Axis.vertical
                   ? AwsAnimation.fadeInLeft
                   : AwsAnimation.fadeInUp,
             ),
             child: _defaultFooter(
-              isExpanded: isExpanded.value,
-              shift: (state) => isExpanded.value = state,
+              isExpanded: isExpanded,
+              shift: (state) => isExpanded = state,
             ),
           ),
       ],
@@ -423,41 +466,38 @@ class AwsBridgeNavigator<T> extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    ValueNotifier<T> selectedItem = useState(initValue);
-    ValueNotifier<bool> isExpanded = useState(false);
-
-    if (theme != null) {
-      if (theme!.painter) {
+    if (widget.theme != null) {
+      if (widget.theme!.painter) {
         return SafeArea(
-          left: safeArea,
-          top: safeArea,
-          right: safeArea,
-          bottom: safeArea,
+          left: widget.safeArea,
+          top: widget.safeArea,
+          right: widget.safeArea,
+          bottom: widget.safeArea,
           child: Padding(
-            padding: padding ?? EdgeInsets.all(0),
+            padding: widget.padding ?? EdgeInsets.all(0),
             child: _painter(context, isExpanded, selectedItem),
           ),
         );
       } else {
         return SafeArea(
-          left: safeArea,
-          top: safeArea,
-          right: safeArea,
-          bottom: safeArea,
+          left: widget.safeArea,
+          top: widget.safeArea,
+          right: widget.safeArea,
+          bottom: widget.safeArea,
           child: Padding(
-            padding: padding ?? EdgeInsets.all(0),
+            padding: widget.padding ?? EdgeInsets.all(0),
             child: _material(context, isExpanded, selectedItem),
           ),
         );
       }
     } else {
       return SafeArea(
-        left: safeArea,
-        top: safeArea,
-        right: safeArea,
-        bottom: safeArea,
+        left: widget.safeArea,
+        top: widget.safeArea,
+        right: widget.safeArea,
+        bottom: widget.safeArea,
         child: Padding(
-            padding: padding ?? EdgeInsets.all(0),
+            padding: widget.padding ?? EdgeInsets.all(0),
             child: _material(context, isExpanded, selectedItem)),
       );
     }

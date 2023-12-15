@@ -1,192 +1,232 @@
-import 'package:awesonestyle/src/widgets/animations/ani_widget/link/aws_link_ani_widget.dart';
-import 'package:awesonestyle/src/widgets/buttons/process/state/aws_state_process_button.dart';
-import 'package:awesonestyle/src/widgets/buttons/process/style/aws_style_process_button.dart';
+import 'package:awesonestyle/awesonestyle.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AwsProcessButton extends StatefulWidget {
-  final bool _resetStateAfterError;
-  final int _resetStateAfterErrorDuration;
-  final Future<bool> Function() _actions;
-  final void Function()? _ok;
-  final void Function()? _error;
-  final Widget _initIcon;
-  final Widget _initLabel;
-  final Widget _actionsIcon;
-  final Widget _actionsLabel;
-  final Widget _okIcon;
-  final Widget _okLabel;
-  final Widget _errorIcon;
-  final Widget _errorLabel;
-  final ButtonStyle? _initStyle;
-  final ButtonStyle? _actionsStyle;
-  final ButtonStyle? _okStyle;
-  final ButtonStyle? _errorStyle;
-  final AwsAnimation _initAnimation;
-  final AwsAnimation _actionsAnimation;
-  final AwsAnimation _okAnimation;
-  final AwsAnimation _errorAnimation;
-  final Duration? _initAnimationDuration;
-  final Duration? _actionsAnimationDuration;
-  final Duration? _okAnimationDuration;
-  final Duration? _errorAnimationDuration;
-  final double? _angle;
-  final double? _sizeY;
-  final int _delayOk;
-  final int _delayError;
+enum AwsStateProcessButton { expecting, process, ok, error }
 
-  const AwsProcessButton(
-      {bool resetStateAfterError = true,
-      int resetStateAfterErrorDuration = 1500,
-      ButtonStyle? initStyle,
-      ButtonStyle? actionsStyle,
-      ButtonStyle? okStyle,
-      ButtonStyle? errorStyle,
-      required Future<bool> Function() actions,
-      void Function()? ok,
-      void Function()? error,
-      Widget initIcon = const Icon(Icons.login_outlined),
-      Widget initLabel = const Text('Login'),
-      Widget actionsIcon = const CircularProgressIndicator(
-        color: Colors.white,
-      ),
-      Widget actionsLabel = const Text('Verificando'),
-      Widget okIcon = const Icon(Icons.check_circle),
-      Widget okLabel = const Text('Verificado'),
-      Widget errorIcon = const Icon(Icons.error_outline),
-      Widget errorLabel = const Text('Error'),
-      AwsAnimation initAnimation = AwsAnimation.zoomIn,
-      AwsAnimation actionsAnimation = AwsAnimation.pulse,
-      AwsAnimation okAnimation = AwsAnimation.flash,
-      AwsAnimation errorAnimation = AwsAnimation.flash,
-      Duration? initAnimationDuration,
-      Duration? actionsAnimationDuration,
-      Duration? okAnimationDuration,
-      Duration? errorAnimationDuration,
-      double? angle,
-      double? sizeY,
-      int delayOk = 700,
-      int delayError = 0,
-      super.key})
-      : _actions = actions,
-        _ok = ok,
-        _error = error,
-        _initIcon = initIcon,
-        _initLabel = initLabel,
-        _actionsIcon = actionsIcon,
-        _actionsLabel = actionsLabel,
-        _okIcon = okIcon,
-        _okLabel = okLabel,
-        _errorIcon = errorIcon,
-        _errorLabel = errorLabel,
-        _initStyle = initStyle,
-        _actionsStyle = actionsStyle,
-        _okStyle = okStyle,
-        _errorStyle = errorStyle,
-        _initAnimation = initAnimation,
-        _actionsAnimation = actionsAnimation,
-        _okAnimation = okAnimation,
-        _errorAnimation = errorAnimation,
-        _initAnimationDuration = initAnimationDuration,
-        _actionsAnimationDuration = actionsAnimationDuration,
-        _okAnimationDuration = okAnimationDuration,
-        _errorAnimationDuration = errorAnimationDuration,
-        _angle = angle,
-        _sizeY = sizeY,
-        _delayOk = delayOk,
-        _delayError = delayError,
-        _resetStateAfterError = resetStateAfterError,
-        _resetStateAfterErrorDuration = resetStateAfterErrorDuration;
+class AwsProcessButton extends StatefulWidget {
+  final bool cupertinoThemeMode;
+  final Size? size;
+  final EdgeInsetsGeometry? padding;
+  final AwsDefinitionProcessButton init;
+  final AwsDefinitionProcessButton accion;
+  final AwsDefinitionProcessButton ok;
+  final AwsDefinitionProcessButton error;
+  final Future<(bool, String)> Function() process;
+  final bool resetStateAfterError;
+  final int resetStateAfterErrorDuration;
+  final void Function(bool value, String? message) result;
+
+  const AwsProcessButton({
+    super.key,
+    this.size,
+    this.padding,
+    required this.init,
+    required this.accion,
+    required this.ok,
+    required this.error,
+    required this.process,
+    required this.result,
+    this.resetStateAfterError = true,
+    this.resetStateAfterErrorDuration = 1500,
+    this.cupertinoThemeMode = false,
+  });
 
   @override
   State<AwsProcessButton> createState() => AwsProcessButtonState();
 }
 
 class AwsProcessButtonState extends State<AwsProcessButton> {
-  late AwsProcessStateButton _state;
-  late Widget _icon;
-  late Widget _label;
-  late ButtonStyle _style;
-  late AwsAnimation _animation;
-  late Duration? _animationDuration;
+  // Declaración de dos variables 'state' y 'definition' de tipo AwsProcessStateButtonDev y AwsDefinitionProcessButton respectivamente.
+  late AwsStateProcessButton state;
+  late AwsDefinitionProcessButton definition;
+
   @override
   void initState() {
-    _state = AwsProcessStateButton.nulls;
-    _icon = widget._initIcon;
-    _label = widget._initLabel;
-    _style = widget._initStyle ?? AwsStyleProcessButton.nulls;
-    _animation = widget._initAnimation;
-    _animationDuration = widget._initAnimationDuration;
+    // Inicialización de la variable 'state' con el valor AwsProcessStateButtonDev.nulls
+    state = AwsStateProcessButton.expecting;
+
+    // Inicialización de la variable 'definition' con el valor recibido en 'widget.init'
+    definition = widget.init;
+
+    // Llamada al método 'initState' de la clase padre (superclase)
     super.initState();
+  }
+
+  //Method that changes the dark mode is activated and changes the button style to its corresponding mode.
+  BoxDecoration themeMode(BuildContext context,
+      {required AwsDecorationProcessButton style}) {
+    var darkStyle =
+        style.copyWith(color: style.darkColor, boxShadow: style.darkBoxShadow);
+    var lightStyle =
+        style.copyWith(color: style.color, boxShadow: style.boxShadow);
+    if (widget.cupertinoThemeMode) {
+      if (CupertinoTheme.of(context).brightness == Brightness.dark) {
+        return darkStyle;
+      }
+      return lightStyle;
+    } else {
+      if (Theme.of(context).brightness == Brightness.dark) {
+        return darkStyle;
+      }
+      return lightStyle;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return AwsAniWidget(
-      setting:
-          AwsAniSetting(animation: _animation, duration: _animationDuration),
-      child: SizedBox(
-        height: widget._sizeY,
-        child: TextButton.icon(
-          onPressed: () async {
-            if (_state != AwsProcessStateButton.actions) {
-              _state = AwsProcessStateButton.actions;
-              _icon =
-                  SizedBox(height: widget._angle, child: widget._actionsIcon);
-              _label = widget._actionsLabel;
-              _style = widget._actionsStyle ?? AwsStyleProcessButton.actions;
-              _animation = widget._actionsAnimation;
-              _animationDuration = widget._actionsAnimationDuration;
+        setting: definition.animation,
+        child: InkWell(
+          borderRadius: definition.style.getBorderRadius,
+          mouseCursor: state == AwsStateProcessButton.expecting
+              ? SystemMouseCursors.click
+              : null,
+          child: Container(
+            height: widget.size?.height,
+            width: widget.size?.width,
+            padding: widget.padding ??
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+            decoration: themeMode(context, style: definition.style),
+            child: definition.indicator != null
+                ? Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      definition.indicator!,
+                      Text(
+                        definition.label,
+                        style: definition.style.textStyle,
+                      ),
+                    ],
+                  )
+                : Text(
+                    definition.label,
+                    style: definition.style.textStyle,
+                  ),
+          ),
+          onTap: () async {
+            if (state != AwsStateProcessButton.process) {
+              state = AwsStateProcessButton.process;
+              definition = widget.accion;
               setState(() {});
-              if (await widget._actions.call()) {
-                _state = AwsProcessStateButton.ok;
-                _icon = widget._okIcon;
-                _label = widget._okLabel;
-                _style = widget._okStyle ?? AwsStyleProcessButton.ok;
-                _animation = widget._okAnimation;
-                _animationDuration = widget._okAnimationDuration;
-                setState(() {});
-                if (widget._delayOk > 0) {
-                  Future.delayed(Duration(milliseconds: widget._delayOk),
-                      () => widget._ok?.call());
+              try {
+                (bool, String) intent = await widget.process();
+                if (intent.$1) {
+                  okProcess(intent.$2);
                 } else {
-                  widget._ok?.call();
+                  errorProcess(intent.$2);
                 }
-              } else {
-                _state = AwsProcessStateButton.error;
-                _icon = widget._errorIcon;
-                _label = widget._errorLabel;
-                _style = widget._errorStyle ?? AwsStyleProcessButton.error;
-                _animation = widget._errorAnimation;
-                _animationDuration = widget._errorAnimationDuration;
-                setState(() {});
-                if (widget._delayError > 0) {
-                  Future.delayed(Duration(milliseconds: widget._delayError),
-                      () => widget._error?.call());
-                } else {
-                  widget._error?.call();
-                }
-                if (widget._resetStateAfterError) {
-                  Future.delayed(
-                      Duration(
-                          milliseconds: widget._resetStateAfterErrorDuration),
-                      () {
-                    _state = AwsProcessStateButton.nulls;
-                    _icon = widget._initIcon;
-                    _label = widget._initLabel;
-                    _style = widget._initStyle ?? AwsStyleProcessButton.nulls;
-                    _animation = widget._initAnimation;
-                    _animationDuration = widget._initAnimationDuration;
-                    setState(() {});
-                  });
-                }
+              } catch (e) {
+                errorProcess(e.toString());
               }
             }
           },
-          icon: _icon,
-          label: _label,
-          style: _style,
-        ),
-      ),
-    );
+        ));
   }
+
+  //If the process was not successful, it will return the value false with an unknown process or error message.
+  void errorProcess(String message) {
+    state = AwsStateProcessButton.error;
+    definition = widget.error;
+    setState(() {});
+    if (definition.animation.delay != null) {
+      Future.delayed(definition.animation.delay!,
+          () => widget.result.call(false, message));
+    } else {
+      widget.result.call(false, message);
+    }
+    if (widget.resetStateAfterError) {
+      Future.delayed(
+          Duration(milliseconds: widget.resetStateAfterErrorDuration), () {
+        state = AwsStateProcessButton.expecting;
+        definition = widget.init;
+
+        setState(() {});
+      });
+    }
+  }
+
+  //If the process was carried out successfully, it will return the value true with a message from the process.
+  void okProcess(String message) {
+    state = AwsStateProcessButton.ok;
+    definition = widget.ok;
+    setState(() {});
+
+    if (definition.animation.delay != null) {
+      Future.delayed(
+          definition.animation.delay!, () => widget.result.call(true, message));
+    } else {
+      widget.result.call(true, message);
+    }
+  }
+}
+
+/// Class that defines the specific decoration for an [AwsProcessButton] process button.
+class AwsDecorationProcessButton extends BoxDecoration {
+  /// [textStyle]: Text style for the button.
+  final TextStyle? textStyle;
+
+  /// [darkColor]: Color when dark mode is activated.
+  final Color darkColor;
+
+  /// [darkBoxShadow]: List of boxShadow when dark mode is activated.
+  final List<BoxShadow>? darkBoxShadow;
+
+  /// Constructor for the process button decoration of [AwsProcessButton].
+  const AwsDecorationProcessButton({
+    required Color color,
+    required this.darkColor,
+    required BorderRadius borderRadius,
+    BoxBorder? border,
+    List<BoxShadow>? boxShadow,
+    this.darkBoxShadow,
+    Gradient? gradient,
+    this.textStyle,
+  }) : super(
+          color: color,
+          borderRadius: borderRadius,
+          border: border,
+          boxShadow: boxShadow,
+          gradient: gradient,
+        );
+
+  /// [getBorderRadius]: Gets the border radius of the decoration.
+  BorderRadius get getBorderRadius => super.borderRadius as BorderRadius;
+
+  /// Static method to create an instance of [AwsDecorationProcessButton] with default values.
+  static AwsDecorationProcessButton defect(
+          {required Color color,
+          required Color darkColor,
+          required List<BoxShadow> boxShadow,
+          required List<BoxShadow> darkBoxShadow}) =>
+      AwsDecorationProcessButton(
+        color: color,
+        darkColor: darkColor,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: boxShadow,
+        darkBoxShadow: darkBoxShadow,
+      );
+}
+
+/// Class representing the definition of a process button with [AwsProcessButton].
+class AwsDefinitionProcessButton {
+  /// [indicator]: Widget to be used as an indicator.
+  final Widget? indicator;
+
+  /// [label]: Label for the button.
+  final String label;
+
+  /// [style]: Style configuration for the button.
+  final AwsDecorationProcessButton style;
+
+  /// [animation]: Animation settings for the button.
+  final AwsAniSetting animation;
+
+  /// Constructs an instance of [AwsDefinitionProcessButton].
+  AwsDefinitionProcessButton({
+    this.indicator,
+    required this.label,
+    required this.style,
+    required this.animation,
+  });
 }

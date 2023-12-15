@@ -60,15 +60,19 @@ class AwsTimePicker extends StatelessWidget {
                   hours: _initialTime?.hour ?? inittime.hour,
                   minutes: _initialTime?.minute ?? inittime.minute),
               onTimerDurationChanged: (duration) {
-                _onTimeChanged.call(DateTime(
+               
+                _onTimeChanged.call(
+                  DateTime(
                     DateTime.now().year,
-                    DateTime.now().month,
-                    DateTime.now().day,
+                    1,
+                    1,
                     duration.inHours,
                     duration.inMinutes.remainder(60),
-                    DateTime.now().second,
-                    DateTime.now().millisecond,
-                    DateTime.now().microsecond));
+                    duration.inSeconds.remainder(60),
+                    0,
+                    0,
+                  ),
+                );
               },
             ),
             if (_textBack != null) ...[

@@ -1,4 +1,4 @@
-import 'package:awesonestyle/src/Services/services_link.dart';
+import 'package:awesonestyle/src/services/services_link.dart';
 import 'package:awesonestyle/src/widgets/editors/markdown/actions/context_menu/aws_context_menu_md.dart';
 import 'package:awesonestyle/src/widgets/editors/markdown/actions/floating_menu/aws_floating_menu_md.dart';
 import 'package:awesonestyle/src/widgets/editors/markdown/format/aws_edit_format_md.dart';
@@ -26,7 +26,6 @@ class AwsMdEditor extends StatefulWidget {
     this.contentFocusNode,
     this.markdownFloatingMenu = true,
     this.markdownContextMenu = true,
-    this.editTitle = false,
     this.formatContent,
     this.formatTitle,
     this.undoAndRedo = false,
@@ -35,7 +34,7 @@ class AwsMdEditor extends StatefulWidget {
   final TextStyle? hintTitleStyle;
   final TextStyle? hintTextStyle;
   final EdgeInsetsGeometry padding;
-  final TextEditingController title;
+  final TextEditingController? title;
   final TextEditingController content;
   final String? hintTitle;
   final String? hintText;
@@ -48,7 +47,7 @@ class AwsMdEditor extends StatefulWidget {
   final AwsEditFormatMD? formatTitle;
 
   /// Editor in content and title mode or only content
-  final bool editTitle;
+  //final bool enableTitle;
 
   /// Enable the context menu
   final bool markdownContextMenu;
@@ -81,8 +80,8 @@ class AwsMdEditorState extends State<AwsMdEditor>
   late AwsEditPerformMD _editPerform;
   /* GetStorage? _pres;
  */
-  String getTitle() {
-    return widget.title.value.text;
+  String? getTitle() {
+    return widget.title?.value.text;
   }
 
   String getContent() {
@@ -227,6 +226,7 @@ class AwsMdEditorState extends State<AwsMdEditor>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     return SizedBox(
       height: context.height(100),
       width: context.width(100),
@@ -246,7 +246,7 @@ class AwsMdEditorState extends State<AwsMdEditor>
                 padding: const EdgeInsets.only(bottom: 40.0),
                 child: Padding(
                   padding: widget.padding,
-                  child: widget.editTitle
+                  child: widget.title!=null
                       ? _titleAndContentEdit()
                       : _contentEdit(),
                 ),

@@ -1,4 +1,4 @@
-import 'package:awesonestyle/src/Services/has/aws_has.dart';
+import 'package:awesonestyle/src/services/has/aws_has.dart';
 import 'package:awesonestyle/src/widgets/animations/ani_widget/link/aws_link_ani_widget.dart';
 import 'package:awesonestyle/src/screens/showing/theme/aws_theme_showing.dart';
 import 'package:flutter/cupertino.dart';

@@ -1,3 +1,30 @@
+## [2.2.1] - stable
+- AwsProcessButton (now AwsProcessButtonOld) is deprecated.
+- add new AwsProcessButton with improvements.
+- fixed AwsTexlinkButton.
+- add AwsGenerator.emails and key.
+- add AwsEncrypts
+- add AwsFormatter.number
+## [2.2.0] - stable
+- fixed AwsMarkdownEditor
+- add new AwsHoverZoomInOut
+- add new AwsNodesSpace
+## [2.1.9] - stable
+- modification in AwsBridgeNavigator
+- modification in AwsTimePicker
+- modification in AwsMarkdownEditor
+## [2.1.8] - Stable
+- fixed analysis
+## [2.1.7] - Stable
+- fixed analysis
+## [2.1.6] - Stable
+- fixed analysis
+## [2.1.5] - Stable
+- fixed analysis
+## [2.1.4] - Stable
+- fixed analysis
+## [2.1.3] - Stable
+- fixed analysis
 ## [2.1.2] - Stable
 - fixed (AwsBridgeNavigator)
 - fixed (AwsShowingScreen)

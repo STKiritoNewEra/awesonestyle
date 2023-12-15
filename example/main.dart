@@ -674,14 +674,14 @@ class AwsProcessButtonExample extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AwsProcessButton(
+            AwsProcessButtonOld(
               actions: () async {
                 await Future.delayed(Duration(milliseconds: 1500));
                 return true;
               },
             ),
             SizedBox(height: 20),
-            AwsProcessButton(
+            AwsProcessButtonOld(
               actions: () async {
                 await Future.delayed(Duration(milliseconds: 1500));
                 return false;
@@ -689,6 +689,107 @@ class AwsProcessButtonExample extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ExampleAwsProcessButton extends StatelessWidget {
+  const ExampleAwsProcessButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: AwsProcessButton(
+        process: () async {
+          await Future.delayed(const Duration(milliseconds: 2000));
+          return (true, 'ok');
+        },
+        init: AwsDefinitionProcessButton(
+          label: 'Login',
+          style: AwsDecorationProcessButton.defect(
+            color: Colors.white,
+            darkColor: Colors.black,
+            boxShadow: [
+              const BoxShadow(
+                color: Colors.black,
+                blurRadius: 5,
+              ),
+            ],
+            darkBoxShadow: [
+              const BoxShadow(
+                color: Colors.white,
+                blurRadius: 5,
+              ),
+            ],
+          ),
+          animation: AwsAniSetting(animation: AwsAnimation.zoomIn),
+        ),
+        accion: AwsDefinitionProcessButton(
+          label: 'Verificando',
+          style: AwsDecorationProcessButton.defect(
+            color: Colors.blue,
+            darkColor: Colors.blueGrey,
+            boxShadow: [
+              const BoxShadow(
+                color: Colors.blue,
+                blurRadius: 5,
+              ),
+            ],
+            darkBoxShadow: [
+              const BoxShadow(
+                color: Colors.blueAccent,
+                blurRadius: 5,
+              ),
+            ],
+          ),
+          animation: AwsAniSetting(animation: AwsAnimation.pulse),
+        ),
+        ok: AwsDefinitionProcessButton(
+          label: 'Verificado',
+          style: AwsDecorationProcessButton.defect(
+            color: Colors.green,
+            darkColor: Colors.lightGreen,
+            boxShadow: [
+              const BoxShadow(
+                color: Colors.green,
+                blurRadius: 5,
+              ),
+            ],
+            darkBoxShadow: [
+              const BoxShadow(
+                color: Colors.greenAccent,
+                blurRadius: 5,
+              ),
+            ],
+          ),
+          animation: AwsAniSetting(
+              animation: AwsAnimation.flash,
+              delay: const Duration(milliseconds: 700)),
+        ),
+        error: AwsDefinitionProcessButton(
+          label: 'Error',
+          style: AwsDecorationProcessButton.defect(
+            color: Colors.red,
+            darkColor: Colors.pink,
+            boxShadow: [
+              const BoxShadow(
+                color: Colors.red,
+                blurRadius: 5,
+              ),
+            ],
+            darkBoxShadow: [
+              const BoxShadow(
+                color: Colors.redAccent,
+                blurRadius: 5,
+              ),
+            ],
+          ),
+          animation: AwsAniSetting(animation: AwsAnimation.flash),
+        ),
+        result: (bool value, String? message) {},
       ),
     );
   }
@@ -1033,6 +1134,274 @@ class _AwsBridgeNavigatorExampleDosState
               selectedView = value;
             });
           },
+        ),
+      ),
+    );
+  }
+}
+
+class AwsNodesSpaceExample extends StatefulWidget {
+  const AwsNodesSpaceExample({super.key});
+
+  @override
+  createState() => _AwsNodesSpaceExampleState();
+}
+
+class _AwsNodesSpaceExampleState extends State<AwsNodesSpaceExample> {
+  AwsNodeElementNodesSpace node = AwsNodeStandardNodesSpace(
+    id: 'home',
+    height: 50,
+    width: 50,
+    node: Container(
+      padding: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: const Text('Home'),
+    ),
+    offset: const Offset(150.0, 150.0),
+    connectedNodes: [
+      AwsNodeStandardNodesSpace(
+        id: '1',
+        height: 50,
+        width: 50,
+        connector: AwsNodeConnectorNodesSpace(
+            gradient: const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                tileMode: TileMode.repeated,
+                colors: [Colors.blue, Colors.red, Colors.green])),
+        node: Container(
+          height: 50,
+          width: 50,
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: const Text('1'),
+        ),
+        connectedNodes: [
+          AwsNodeStandardNodesSpace(
+            id: '1.1',
+            height: 50,
+            width: 50,
+            connector: AwsNodeConnectorNodesSpace(
+                gradient: const LinearGradient(
+                    colors: [Colors.black45, Colors.indigo, Colors.teal])),
+            node: Container(
+              height: 50,
+              width: 50,
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: const Text('1.1'),
+            ),
+            offset: const Offset(40.0, 315.1),
+          ),
+          AwsNodeStandardNodesSpace(
+            id: '1.2',
+            height: 50,
+            width: 50,
+            connector: AwsNodeConnectorNodesSpace(
+                gradient: const LinearGradient(
+                    colors: [Colors.amber, Colors.purple, Colors.lightBlue])),
+            node: Container(
+              height: 50,
+              width: 50,
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: const Text('1.2'),
+            ),
+            offset: const Offset(150.0, 315.1),
+          ),
+        ],
+        offset: const Offset(91.5, 216.2),
+      ),
+      AwsNodeZoomInOutNodesSpace(
+        id: '2',
+        node: Container(
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: const Text('2'),
+        ),
+        offset: const Offset(300.0, 300.0),
+        zoomIn: const Size(80, 80),
+        zoomOut: const Size(50, 50),
+        duration: const Duration(milliseconds: 300),
+      ),
+      AwsNodeHoverAnimatedNodesSpace(
+          id: '3',
+          height: 50,
+          width: 50,
+          node: const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text('3'),
+          ),
+          offset: const Offset(358.6, 230.0),
+          animation: AwsAnimation.dance,
+          duration: const Duration(milliseconds: 1000),
+          notHover: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(60.0),
+          ),
+          isHover: BoxDecoration(
+            color: Colors.red,
+            borderRadius: BorderRadius.circular(60.0),
+          )),
+      AwsNodeStandardNodesSpace(
+        id: '4',
+        height: 50,
+        width: 50,
+        node: Container(
+          height: 50,
+          width: 50,
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: const Text('4'),
+        ),
+        connectedNodes: [
+          AwsNodeStandardNodesSpace(
+            id: '4.1',
+            height: 50,
+            width: 50,
+            node: Container(
+              height: 50,
+              width: 50,
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: const Text('4.1'),
+            ),
+            offset: const Offset(512.0, 162.5),
+          ),
+          AwsNodeStandardNodesSpace(
+            id: '4.2',
+            height: 50,
+            width: 50,
+            node: Container(
+              height: 50,
+              width: 50,
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: const Text('4.2'),
+            ),
+            connectedNodes: [
+              AwsNodeSizeNodesSpace(
+                id: '4.2.1',
+                height: 50,
+                width: 50,
+                node: Container(
+                  /*  height: 50,
+                  width: 50, */
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: const Text('4.2.1'),
+                ),
+                offset: const Offset(636.6, 253.0),
+                increment: .10,
+                duration: const Duration(milliseconds: 800),
+                connectedNodes: [
+                  AwsNodeAnimatedNodesSpace(
+                    id: '4.2.1.1',
+                    height: 50,
+                    width: 50,
+                    node: Container(
+                      /*  height: 50,
+                  width: 50, */
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: const Text('4.2.1.1'),
+                    ),
+                    offset: const Offset(636.6, 330.0),
+                    setting: AwsAniSetting(
+                      animation: AwsAnimation.elasticIn,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+            offset: const Offset(585.7, 60.9),
+          ),
+        ],
+        offset: const Offset(456.6, 57.2),
+      ),
+    ],
+  );
+  final gradient = const LinearGradient(
+    colors: [Colors.greenAccent, Colors.blueAccent],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth =
+        View.of(context).physicalSize.width / View.of(context).devicePixelRatio;
+    double screenHeight = View.of(context).physicalSize.height /
+        View.of(context).devicePixelRatio;
+    return Scaffold(
+      body: AwsNodesSpace(
+        connector: AwsNodeConnectorNodesSpace(gradient: gradient),
+        node: node,
+        updateNode: (String id, Offset offset) {
+          if (offset.dx > 0 &&
+              offset.dx <= screenWidth &&
+              offset.dy > 0 &&
+              offset.dy <= screenHeight) {
+            setState(() {
+              AwsNodesSpace.updateOffsetsRecursively(
+                  node: node, id: id, offset: offset);
+            });
+          }
+        },
+      ),
+    );
+  }
+}
+
+class AwsHoverZoomInOutExample extends StatelessWidget {
+  const AwsHoverZoomInOutExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Hover Zoom Example')),
+        body: Center(
+          child: AwsHoverZoomInOut(
+            zoomIn: const Size(200, 200), // Tamaño cuando está "zoom in"
+            zoomOut: const Size(150, 150), // Tamaño cuando está "zoom out"
+            duration:
+                const Duration(milliseconds: 300), // Duración de la animación
+            hover: (isHovered) {
+              // Callback que indica si el mouse está sobre el widget
+              print('Mouse is hovered: $isHovered');
+            },
+            child: const Placeholder(),
+          ),
         ),
       ),
     );

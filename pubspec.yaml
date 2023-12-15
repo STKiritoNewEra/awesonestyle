@@ -1,19 +1,17 @@
 name: awesonestyle
 description: "AwesoneStyle es un paquete multiplataforma que contiene un conjunto de herramientas para diseño de sitios, aplicaciones web, aplicaciones móviles y de escritorio."
-version: 2.1.2
+version: 2.2.1
 homepage: https://github.com/STKiritoNewEra/awesonestyle
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
-  flutter: ">=3.7.0"
+  flutter: ">=3.13.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  flutter_hooks: ^0.20.0
   markdown_core: ^1.0.0
-  sleek_circular_slider: ^2.0.1
-  intl: ^0.18.0
+  intl: ^0.19.0
   path: ^1.8.3
   
 dev_dependencies:

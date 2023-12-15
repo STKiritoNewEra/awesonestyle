@@ -1,14 +1,12 @@
 import 'dart:async';
-
-import 'package:awesonestyle/src/Services/services_link.dart';
 import 'package:awesonestyle/src/widgets/editors/markdown/editor/aws_editor_md.dart';
 import 'package:awesonestyle/src/widgets/editors/markdown/format/aws_edit_format_md.dart';
 import 'package:awesonestyle/src/widgets/editors/markdown/preview/aws_preview_md.dart';
 import 'package:awesonestyle/src/widgets/editors/markdown/text/aws_text_markdown.dart';
 import 'package:awesonestyle/src/widgets/editors/markdown/type/aws_page_type_markdown.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_core/builder.dart';
-import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
 class AwsMarkdownEditor extends StatefulWidget {
   const AwsMarkdownEditor({
@@ -32,10 +30,10 @@ class AwsMarkdownEditor extends StatefulWidget {
     this.markdownFloatingMenu = true,
     this.markdownContextMenu = true,
     this.controller,
-    this.editTitle = false,
     this.formatContent,
     this.formatTitle,
     this.undoAndRedo = false,
+    this.wait,
   }) : super(key: key);
 
   final EdgeInsetsGeometry padding;
@@ -50,9 +48,6 @@ class AwsMarkdownEditor extends StatefulWidget {
 
   //undo and redo
   final bool undoAndRedo;
-
-  /// Editor in content and title mode or only content
-  final bool editTitle;
 
   /// see [AwsMdPreview.onTapLink]
   final TapLinkCallback? onTapLink;
@@ -72,6 +67,9 @@ class AwsMarkdownEditor extends StatefulWidget {
 
   ///current view position
   final void Function(TabController controller)? controller;
+
+  ///wait widget
+  final Widget? wait;
 
   /// Change icon color, eg: color of font_bold icon.
   /* final Color? actionIconColor;
@@ -152,19 +150,14 @@ class AwsMarkdownEditorWidgetState extends State<AwsMarkdownEditor>
             key: _editorKey,
             padding: widget.padding,
             content: widget.content,
-            editTitle: widget.editTitle,
-            title: widget.title ?? TextEditingController(),
+            title: widget.title,
             hintText: widget.hintText,
             hintTitle: widget.hintTitle,
-            /* titleStyle: widget.titleTextStyle,
-            textStyle: widget.textStyle, */
             undoAndRedo: widget.undoAndRedo,
             hintTitleStyle: widget.hintTitleTextStyle,
             hintTextStyle: widget.hintTextStyle,
             titleChange: (title) => widget.titleChange?.call(title),
             contentChange: (content) => widget.contentChange?.call(content),
-/*             actionIconColor: widget.actionIconColor,
-            cursorColor: widget.cursorColor, */
             formatTitle: widget.formatTitle,
             formatContent: widget.formatContent,
             appendBottomWidget: widget.appendBottomWidget,
@@ -189,22 +182,9 @@ class AwsMarkdownEditorWidgetState extends State<AwsMarkdownEditor>
                   textStyle: widget.formatContent?.textStyle,
                 );
               }
+
               return Center(
-                child: SizedBox(
-                  height: context.height(15),
-                  width: context.height(15),
-                  child: SleekCircularSlider(
-                    appearance: CircularSliderAppearance(
-                      customColors: CustomSliderColors(
-                        trackColor: Colors.transparent,
-                        dynamicGradient: false,
-                        shadowStep: 2,
-                        dotColor: Colors.white,
-                      ),
-                      spinnerMode: true,
-                    ),
-                  ),
-                ),
+                child: widget.wait ?? CupertinoActivityIndicator(),
               );
             },
           ),

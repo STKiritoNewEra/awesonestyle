@@ -27,4 +27,12 @@ class AwsFormatter {
       return '$hour$spacer$divisor$spacer$minute';
     }
   }
+
+  static String number(double number,
+      {int decimals = 0, required String locale}) {
+    final formatterNumber = NumberFormat.compactCurrency(
+            decimalDigits: decimals, symbol: '', locale: locale)
+        .format(number);
+    return formatterNumber;
+  }
 }

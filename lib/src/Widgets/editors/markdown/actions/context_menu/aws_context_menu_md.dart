@@ -1,4 +1,4 @@
-import 'package:awesonestyle/src/Services/screen_size/aws_screen_size.dart';
+import 'package:awesonestyle/src/services/screen_size/aws_screen_size.dart';
 import 'package:awesonestyle/src/widgets/editors/markdown/parser/aws_parser_md.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

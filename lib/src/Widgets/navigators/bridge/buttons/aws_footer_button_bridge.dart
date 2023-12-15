@@ -18,6 +18,4 @@ class AwsFooterButtonBridge {
     this.padding,
     this.cupertino = true,
   });
-
-  
 }

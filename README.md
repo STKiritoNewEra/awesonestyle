@@ -120,7 +120,7 @@ class AwsConnectionExample extends StatelessWidget {
 }
 ```
 ### Formatter
-It is a set of text formatters currently sitting on time and dates.
+It is a set of formatters that have dates, times and numbers.
 [Preview](https://drive.google.com/file/d/1P3RRMT2beFZnj-6fEOjTqHrtsywMyplb/view?usp=drive_link)
 Example:
 ```
@@ -165,7 +165,7 @@ class AwsFormatterExample extends StatelessWidget {
 }
 ```
 ### Generators
-This functionality currently only has a year generator.
+AwsGenerators can generate a list of years, emails and keys.
 [Preview](https://drive.google.com/file/d/1BzsUhFPKiJV4kmo6l8NKprqkGjVmMks2/view?usp=drive_link)
 Example:
 ```
@@ -738,6 +738,8 @@ class AwsMotleyButtonExample extends StatelessWidget {
 ```
 #### Process
 It is a widget that you can use when you need to make a request or process that requires a waiting time and a positive or negative response.
+
+It is currently deprecated and I changed its name to [AwsProcessButtonOld], instead use [AwsProcessButton] which will improve some issues.
 [Preview](https://drive.google.com/file/d/1-UPMZHpJkTOogOX_ROoMWKNc_FIzL05q/view?usp=drive_link)
 Example:
 ```
@@ -1127,6 +1129,282 @@ class _AwsBridgeNavigatorExampleDosState
               selectedView = value;
             });
           },
+        ),
+      ),
+    );
+  }
+}
+```
+### AwsNodesSpace
+ It is a widget that allows you to connect a network of nodes that you can use to display a network of information.
+ It has the following types of nodes: AwsNodeStandardNodesSpace, AwsNodeZoomInOutNodesSpace, AwsNodeSizeNodesSpace, AwsNodeAnimatedNodesSpace y AwsNodeHoverAnimatedNodesSpace.
+```
+class AwsNodesSpaceExample extends StatefulWidget {
+  const AwsNodesSpaceExample({super.key});
+
+  @override
+  createState() => _AwsNodesSpaceExampleState();
+}
+
+class _AwsNodesSpaceExampleState extends State<AwsNodesSpaceExample> {
+  AwsNodeElementNodesSpace node = AwsNodeStandardNodesSpace(
+    id: 'home',
+    height: 50,
+    width: 50,
+    node: Container(
+      padding: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: const Text('Home'),
+    ),
+    offset: const Offset(150.0, 150.0),
+    connectedNodes: [
+      AwsNodeStandardNodesSpace(
+        id: '1',
+        height: 50,
+        width: 50,
+        connector: AwsNodeConnectorNodesSpace(
+            gradient: const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                tileMode: TileMode.repeated,
+                colors: [Colors.blue, Colors.red, Colors.green])),
+        node: Container(
+          height: 50,
+          width: 50,
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: const Text('1'),
+        ),
+        connectedNodes: [
+          AwsNodeStandardNodesSpace(
+            id: '1.1',
+            height: 50,
+            width: 50,
+            connector: AwsNodeConnectorNodesSpace(
+                gradient: const LinearGradient(
+                    colors: [Colors.black45, Colors.indigo, Colors.teal])),
+            node: Container(
+              height: 50,
+              width: 50,
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: const Text('1.1'),
+            ),
+            offset: const Offset(40.0, 315.1),
+          ),
+          AwsNodeStandardNodesSpace(
+            id: '1.2',
+            height: 50,
+            width: 50,
+            connector: AwsNodeConnectorNodesSpace(
+                gradient: const LinearGradient(
+                    colors: [Colors.amber, Colors.purple, Colors.lightBlue])),
+            node: Container(
+              height: 50,
+              width: 50,
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: const Text('1.2'),
+            ),
+            offset: const Offset(150.0, 315.1),
+          ),
+        ],
+        offset: const Offset(91.5, 216.2),
+      ),
+      AwsNodeZoomInOutNodesSpace(
+        id: '2',
+        node: Container(
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: const Text('2'),
+        ),
+        offset: const Offset(300.0, 300.0),
+        zoomIn: const Size(80, 80),
+        zoomOut: const Size(50, 50),
+        duration: const Duration(milliseconds: 300),
+      ),
+      AwsNodeHoverAnimatedNodesSpace(
+          id: '3',
+          height: 50,
+          width: 50,
+          node: const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text('3'),
+          ),
+          offset: const Offset(358.6, 230.0),
+          animation: AwsAnimation.dance,
+          duration: const Duration(milliseconds: 1000),
+          notHover: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(60.0),
+          ),
+          isHover: BoxDecoration(
+            color: Colors.red,
+            borderRadius: BorderRadius.circular(60.0),
+          )),
+      AwsNodeStandardNodesSpace(
+        id: '4',
+        height: 50,
+        width: 50,
+        node: Container(
+          height: 50,
+          width: 50,
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: const Text('4'),
+        ),
+        connectedNodes: [
+          AwsNodeStandardNodesSpace(
+            id: '4.1',
+            height: 50,
+            width: 50,
+            node: Container(
+              height: 50,
+              width: 50,
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: const Text('4.1'),
+            ),
+            offset: const Offset(512.0, 162.5),
+          ),
+          AwsNodeStandardNodesSpace(
+            id: '4.2',
+            height: 50,
+            width: 50,
+            node: Container(
+              height: 50,
+              width: 50,
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: const Text('4.2'),
+            ),
+            connectedNodes: [
+              AwsNodeSizeNodesSpace(
+                id: '4.2.1',
+                height: 50,
+                width: 50,
+                node: Container(
+                  /*  height: 50,
+                  width: 50, */
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: const Text('4.2.1'),
+                ),
+                offset: const Offset(636.6, 253.0),
+                increment: .10,
+                duration: const Duration(milliseconds: 800),
+                connectedNodes: [
+                  AwsNodeAnimatedNodesSpace(
+                    id: '4.2.1.1',
+                    height: 50,
+                    width: 50,
+                    node: Container(
+                      /*  height: 50,
+                  width: 50, */
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: const Text('4.2.1.1'),
+                    ),
+                    offset: const Offset(636.6, 330.0),
+                    setting: AwsAniSetting(
+                      animation: AwsAnimation.elasticIn,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+            offset: const Offset(585.7, 60.9),
+          ),
+        ],
+        offset: const Offset(456.6, 57.2),
+      ),
+    ],
+  );
+  final gradient = const LinearGradient(
+    colors: [Colors.greenAccent, Colors.blueAccent],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth =
+        View.of(context).physicalSize.width / View.of(context).devicePixelRatio;
+    double screenHeight = View.of(context).physicalSize.height /
+        View.of(context).devicePixelRatio;
+    return Scaffold(
+      body: AwsNodesSpace(
+        connector: AwsNodeConnectorNodesSpace(gradient: gradient),
+        node: node,
+        updateNode: (String id, Offset offset) {
+          if (offset.dx > 0 &&
+              offset.dx <= screenWidth &&
+              offset.dy > 0 &&
+              offset.dy <= screenHeight) {
+            setState(() {
+              AwsNodesSpace.updateOffsetsRecursively(
+                  node: node, id: id, offset: offset);
+            });
+          }
+        },
+      ),
+    );
+  }
+}
+
+```
+### AwsHoverZoomInOut
+It is a widget that when the cursor is over it, it increases and returns to normal when the cursor is away.
+```
+class AwsHoverZoomInOutExample extends StatelessWidget {
+  const AwsHoverZoomInOutExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Hover Zoom Example')),
+        body: Center(
+          child: AwsHoverZoomInOut(
+            zoomIn: const Size(200, 200), // Tamaño cuando está "zoom in"
+            zoomOut: const Size(150, 150), // Tamaño cuando está "zoom out"
+            duration:
+                const Duration(milliseconds: 300), // Duración de la animación
+            hover: (isHovered) {
+              // Callback que indica si el mouse está sobre el widget
+              print('Mouse is hovered: $isHovered');
+            },
+            child: const Placeholder(),
+          ),
         ),
       ),
     );
